@@ -214,3 +214,159 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   });
+
+  // Authentication Pages Functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    // Password visibility toggle
+    const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+    togglePasswordButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const input = this.previousElementSibling;
+        const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+        input.setAttribute('type', type);
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+      });
+    });
+
+    // Form validation
+    const authForms = document.querySelectorAll('.auth-form');
+    authForms.forEach(form => {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Basic form validation
+        const inputs = this.querySelectorAll('input[required]');
+        let isValid = true;
+        
+        inputs.forEach(input => {
+          if (!input.value.trim()) {
+            isValid = false;
+            input.classList.add('error');
+          } else {
+            input.classList.remove('error');
+          }
+        });
+
+        // Password match validation for signup
+        const password = this.querySelector('#password');
+        const confirmPassword = this.querySelector('#confirm-password');
+        if (password && confirmPassword) {
+          if (password.value !== confirmPassword.value) {
+            isValid = false;
+            confirmPassword.classList.add('error');
+            // You might want to add an error message here
+          }
+        }
+
+        if (isValid) {
+          // Here you would typically send the form data to your server
+          console.log('Form is valid, ready to submit');
+          // For demo purposes, show a success message
+          const successMessage = document.createElement('div');
+          successMessage.className = 'success-message';
+          successMessage.textContent = 'Success! Redirecting...';
+          this.appendChild(successMessage);
+          
+          // Simulate redirect after 2 seconds
+          setTimeout(() => {
+            window.location.href = '../index.html';
+          }, 2000);
+        }
+      });
+    });
+
+    // Social login buttons
+    const socialButtons = document.querySelectorAll('.social-btn');
+    socialButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const provider = this.classList.contains('google') ? 'Google' : 'Facebook';
+        console.log(`Logging in with ${provider}`);
+        // Here you would implement the actual social login functionality
+      });
+    });
+  });
+
+  // Events page functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    // Filter buttons
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const eventCards = document.querySelectorAll('.event-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active class from all buttons
+        filterBtns.forEach(b => b.classList.remove('active'));
+        // Add active class to clicked button
+        btn.classList.add('active');
+
+        const filter = btn.textContent.toLowerCase();
+        
+        // Filter events
+        eventCards.forEach(card => {
+          const type = card.querySelector('.event-type').textContent.toLowerCase();
+          if (filter === 'all' || type.includes(filter)) {
+            card.style.display = 'block';
+            setTimeout(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, 100);
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              card.style.display = 'none';
+            }, 300);
+          }
+        });
+      });
+    });
+
+    // Search functionality
+    const searchInput = document.querySelector('.search-bar input');
+    const searchBtn = document.querySelector('.search-bar button');
+
+    function performSearch() {
+      const searchTerm = searchInput.value.toLowerCase();
+      
+      eventCards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const location = card.querySelector('.event-location').textContent.toLowerCase();
+        const description = card.querySelector('.event-description').textContent.toLowerCase();
+        
+        if (title.includes(searchTerm) || 
+            location.includes(searchTerm) || 
+            description.includes(searchTerm)) {
+          card.style.display = 'block';
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 100);
+        } else {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          setTimeout(() => {
+            card.style.display = 'none';
+          }, 300);
+        }
+      });
+    }
+
+    searchBtn.addEventListener('click', performSearch);
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+
+    // Get Tickets button
+    const ticketBtns = document.querySelectorAll('.view-details');
+    ticketBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const eventCard = btn.closest('.event-card');
+        const eventName = eventCard.querySelector('h3').textContent;
+        showNotification(`Redirecting to ticket purchase for ${eventName}...`, 'info');
+        // Add your ticket purchase page navigation here
+      });
+    });
+  });
