@@ -89,3 +89,128 @@ document.addEventListener('DOMContentLoaded', function () {
   setTimeout(() => {
     showNotification('Welcome to NIGHTMARE! Discover the best nightlife experiences.', 'success');
   }, 1000);
+
+  // Hero section animations
+  document.addEventListener('DOMContentLoaded', function() {
+    const hero = document.querySelector('.hero');
+    const features = document.querySelectorAll('.feature');
+    const buttons = document.querySelectorAll('.cta-button');
+
+    // Parallax effect on mouse move
+    hero.addEventListener('mousemove', (e) => {
+      const { clientX, clientY } = e;
+      const xPos = (clientX / window.innerWidth - 0.5) * 20;
+      const yPos = (clientY / window.innerHeight - 0.5) * 20;
+      
+      hero.style.backgroundPosition = `${xPos}px ${yPos}px`;
+    });
+
+    // Animate features on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    features.forEach(feature => {
+      feature.style.opacity = '0';
+      feature.style.transform = 'translateY(20px)';
+      feature.style.transition = 'all 0.5s ease';
+      observer.observe(feature);
+    });
+
+    // Button hover effects
+    buttons.forEach(button => {
+      button.addEventListener('mouseover', () => {
+        button.style.transform = 'scale(1.05) translateY(-2px)';
+      });
+      
+      button.addEventListener('mouseout', () => {
+        button.style.transform = 'scale(1) translateY(0)';
+      });
+    });
+  });
+
+  // Clubs page functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    // Filter buttons
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const clubCards = document.querySelectorAll('.club-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active class from all buttons
+        filterBtns.forEach(b => b.classList.remove('active'));
+        // Add active class to clicked button
+        btn.classList.add('active');
+
+        const filter = btn.textContent.toLowerCase();
+        
+        // Filter clubs
+        clubCards.forEach(card => {
+          const type = card.querySelector('.club-type').textContent.toLowerCase();
+          if (filter === 'all' || type === filter) {
+            card.style.display = 'block';
+            setTimeout(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, 100);
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              card.style.display = 'none';
+            }, 300);
+          }
+        });
+      });
+    });
+
+    // Search functionality
+    const searchInput = document.querySelector('.search-bar input');
+    const searchBtn = document.querySelector('.search-bar button');
+
+    function performSearch() {
+      const searchTerm = searchInput.value.toLowerCase();
+      
+      clubCards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const location = card.querySelector('.club-location').textContent.toLowerCase();
+        
+        if (title.includes(searchTerm) || location.includes(searchTerm)) {
+          card.style.display = 'block';
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 100);
+        } else {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          setTimeout(() => {
+            card.style.display = 'none';
+          }, 300);
+        }
+      });
+    }
+
+    searchBtn.addEventListener('click', performSearch);
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+
+    // View Details button
+    const viewDetailsBtns = document.querySelectorAll('.view-details');
+    viewDetailsBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const clubCard = btn.closest('.club-card');
+        const clubName = clubCard.querySelector('h3').textContent;
+        showNotification(`Loading details for ${clubName}...`, 'info');
+        // Add your club details page navigation here
+      });
+    });
+  });
