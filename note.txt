@@ -1,0 +1,67 @@
+### NIGHTMARE - Feature Set Document
+
+**Overview:**
+NIGHTMARE is a nightclub and restaurant-focused application designed to streamline reservations, ticket purchases, table bookings, and messaging with venues while providing a price comparison feature for events.
+
+---
+
+### 1. User Profiles
+
+•	User registration (Email, Google, Apple, Facebook)
+•	Profile management (update details, profile picture)
+•	Favorite venues and events
+•	VIP membership and loyalty program tracking
+•	User dashboard with booking history
+
+### 2. Reservation & Booking System
+
+•	Event discovery by location, date, and category (Nightclubs, Restaurants)
+•	Table booking with seating options (lounge, bar, VIP)
+•	Ticket purchasing (general admission, VIP, exclusive tables)
+•	Reservation management (modify/cancel bookings)
+•	Dynamic pricing for last-minute deals
+•	Price comparison for tickets and table packages
+•	QR code-based check-ins and ticket verification
+
+### 3. Messaging & Notifications
+
+•	In-app messaging between users and venues
+•	Notifications for booking confirmations, cancellations, and event reminders
+•	Push notifications for price drops or exclusive offers
+•	Real-time messaging for group reservations
+
+### 4. Payment & Checkout
+
+•	Secure payment processing (Stripe, PayPal, Apple Pay)
+•	Split payments for group reservations
+•	Transaction history and receipts
+•	Refund processing for cancelled bookings
+
+### 5. Venue & Event Management
+
+•	Venue profiles with event listings, menus, and promotions
+•	Event creation and management for venue managers
+•	Calendar view for upcoming events and promotions
+•	Analytics dashboard for venues (sales, bookings, messaging activity)
+
+### 6. Reviews & Ratings
+
+•	User-generated reviews and ratings for venues and events
+•	Verified check-ins and ratings for attended events
+•	Photo and video uploads for venue/event experiences
+
+### 7. Admin Dashboard
+
+•	User management (block/unblock users)
+•	Venue and event approval/review system
+•	Analytics and reporting (user activity, sales, revenue)
+•	CMS for promotional content and ads
+
+### 8. Integrations
+
+•	Payment gateways: Stripe, PayPal, Apple Pay
+•	Third-party messaging services (Twilio, SendGrid)
+•	Geolocation for venue recommendations
+•	Social media sharing for events and bookings
+
+---
