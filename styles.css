@@ -176,7 +176,7 @@
   }
   
   .cta-button.primary {
-    background: linear-gradient(90deg, #e040fb, #00e5ff);
+    background: #e040fb;  /* Pink color */
     color: #fff;
   }
   
@@ -541,6 +541,11 @@ nav ul {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   font-size: 1rem;
+  outline: none;
+}
+
+.search-bar input:focus {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .search-bar input::placeholder {
@@ -551,14 +556,14 @@ nav ul {
   padding: 15px 25px;
   border: none;
   border-radius: 50px;
-  background: #e040fb;  /* Solid purple color */
+  background: #e040fb;  /* Pink color */
   color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .search-bar button:hover {
-  background: #d633ff;  /* Slightly lighter purple on hover */
+  background: #d633ff;  /* Slightly lighter pink on hover */
   transform: scale(1.05);
   box-shadow: 0 0 20px rgba(224, 64, 251, 0.3);
 }
@@ -582,7 +587,7 @@ nav ul {
 
 .filter-btn.active,
 .filter-btn:hover {
-  background: #e040fb;  /* Solid purple color */
+  background: #e040fb;  /* Pink color */
 }
 
 .clubs-container {
@@ -661,14 +666,14 @@ nav ul {
   padding: 12px;
   border: none;
   border-radius: 25px;
-  background: #e040fb;  /* Solid purple color */
+  background: #e040fb;  /* Pink color */
   color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .view-details:hover {
-  background: #d633ff;  /* Slightly lighter purple on hover */
+  background: #d633ff;  /* Slightly lighter pink on hover */
   transform: scale(1.02);
   box-shadow: 0 0 15px rgba(224, 64, 251, 0.3);
 }
@@ -804,20 +809,20 @@ nav ul {
 }
 
 .forgot-password {
-  color: #8a2be2;
+  color: #e040fb;
   text-decoration: none;
   font-size: 0.9rem;
   transition: color 0.3s ease;
 }
 
 .forgot-password:hover {
-  color: #9d4edd;
+  color: #d633ff;
 }
 
 .auth-button {
   width: 100%;
   padding: 1rem;
-  background: #8a2be2;
+  background: #e040fb;  /* Pink color */
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -828,7 +833,7 @@ nav ul {
 }
 
 .auth-button:hover {
-  background: #9d4edd;
+  background: #d633ff;  /* Slightly lighter pink on hover */
   transform: translateY(-1px);
 }
 
@@ -902,14 +907,14 @@ nav ul {
 }
 
 .auth-switch a {
-  color: #8a2be2;
+  color: #e040fb;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .auth-switch a:hover {
-  color: #9d4edd;
+  color: #d633ff;
 }
 
 /* Responsive Styles for Auth Pages */
@@ -1018,7 +1023,7 @@ nav ul {
   position: absolute;
   top: 15px;
   left: 15px;
-  background: rgba(224, 64, 251, 0.9);
+  background: #e040fb;  /* Pink color */
   color: #fff;
   padding: 10px;
   border-radius: 8px;
@@ -1044,7 +1049,7 @@ nav ul {
   top: 15px;
   right: 15px;
   padding: 5px 15px;
-  background: rgba(224, 64, 251, 0.9);
+  background: #e040fb;  /* Pink color */
   color: #fff;
   border-radius: 20px;
   font-size: 0.9rem;
@@ -1103,5 +1108,308 @@ nav ul {
   .event-card {
     max-width: 400px;
     margin: 0 auto;
+  }
+}
+
+/* User Dashboard Styles */
+.dashboard {
+  padding: 40px 0;
+  min-height: calc(100vh - 200px);
+  background: #181818;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+/* Profile Card */
+.profile-card {
+  background: #1a1a1a;
+  border-radius: 15px;
+  padding: 30px;
+  grid-column: 1 / -1;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.profile-avatar {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 20px;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.edit-avatar {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e040fb;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-avatar:hover {
+  transform: scale(1.1);
+}
+
+.user-name {
+  color: #fff;
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+
+.user-email {
+  color: #888;
+  font-size: 1rem;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.stat {
+  padding: 20px;
+}
+
+.stat-value {
+  display: block;
+  color: #e040fb;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Quick Actions */
+.quick-actions {
+  background: #1a1a1a;
+  border-radius: 15px;
+  padding: 30px;
+}
+
+.quick-actions h3 {
+  color: #fff;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.action-btn {
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #2a2a2a;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.action-btn i {
+  color: #e040fb;
+}
+
+.action-btn:hover {
+  background: #333;
+  transform: translateY(-2px);
+}
+
+/* Upcoming Events */
+.upcoming-events {
+  background: #1a1a1a;
+  border-radius: 15px;
+  padding: 30px;
+}
+
+.upcoming-events h3 {
+  color: #fff;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.event-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #2a2a2a;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.event-date {
+  background: #e040fb;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 60px;
+}
+
+.event-date .day {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.event-date .month {
+  display: block;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.event-details {
+  flex: 1;
+}
+
+.event-details h4 {
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.event-details p {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 3px;
+}
+
+.event-details i {
+  color: #e040fb;
+  margin-right: 5px;
+}
+
+.view-ticket {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 20px;
+  background: #e040fb;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.view-ticket:hover {
+  background: #d633ff;
+  transform: scale(1.05);
+}
+
+/* Recent Activity */
+.recent-activity {
+  background: #1a1a1a;
+  border-radius: 15px;
+  padding: 30px;
+}
+
+.recent-activity h3 {
+  color: #fff;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #2a2a2a;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  background: #e040fb;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.activity-details {
+  flex: 1;
+}
+
+.activity-details p {
+  color: #fff;
+  margin-bottom: 3px;
+}
+
+.activity-time {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-stats {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .action-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .event-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .event-date {
+    margin: 0 auto;
+  }
+
+  .view-ticket {
+    width: 100%;
   }
 }

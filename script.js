@@ -370,3 +370,70 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   });
+
+  // User Dashboard Functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    // Profile Avatar Upload
+    const editAvatarBtn = document.querySelector('.edit-avatar');
+    if (editAvatarBtn) {
+        editAvatarBtn.addEventListener('click', function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.querySelector('.profile-avatar img').src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        });
+    }
+
+    // Quick Action Buttons
+    const actionButtons = document.querySelectorAll('.action-btn');
+    actionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const action = this.textContent.trim();
+            switch(action) {
+                case 'My Tickets':
+                    showNotification('Viewing your tickets...', 'info');
+                    break;
+                case 'My Calendar':
+                    showNotification('Opening your calendar...', 'info');
+                    break;
+                case 'Favorites':
+                    showNotification('Viewing your favorites...', 'info');
+                    break;
+                case 'Settings':
+                    showNotification('Opening settings...', 'info');
+                    break;
+            }
+        });
+    });
+
+    // View Ticket Buttons
+    const viewTicketButtons = document.querySelectorAll('.view-ticket');
+    viewTicketButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const eventName = this.closest('.event-item').querySelector('h4').textContent;
+            showNotification(`Viewing ticket for ${eventName}`, 'info');
+        });
+    });
+
+    // Logout Functionality
+    const logoutBtn = document.querySelector('.logout');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            showNotification('Logging out...', 'info');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
+        });
+    }
+  });

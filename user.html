@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - NightMare</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo-gradient">NightMare</a>
+            <nav>
+                <ul>
+                    <li><a href="menus/clubs.html">Clubs</a></li>
+                    <li><a href="menus/events.html">Events</a></li>
+                    <li><a href="#" class="user-profile"><i class="fas fa-user-circle"></i> Profile</a></li>
+                    <li><a href="#" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- User Dashboard Section -->
+        <section class="dashboard">
+            <div class="container">
+                <div class="dashboard-grid">
+                    <!-- Profile Card -->
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <img src="https://via.placeholder.com/150" alt="Profile Picture">
+                                <button class="edit-avatar"><i class="fas fa-camera"></i></button>
+                            </div>
+                            <h2 class="user-name">Steve Ad Rosam</h2>
+                            <p class="user-email">steverosam@example.com</p>
+                        </div>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <span class="stat-value">12</span>
+                                <span class="stat-label">Events Attended</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">5</span>
+                                <span class="stat-label">Upcoming Events</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">3</span>
+                                <span class="stat-label">Favorite Clubs</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <div class="action-buttons">
+                            <button class="action-btn"><i class="fas fa-ticket-alt"></i> My Tickets</button>
+                            <button class="action-btn"><i class="fas fa-calendar-alt"></i> My Calendar</button>
+                            <button class="action-btn"><i class="fas fa-heart"></i> Favorites</button>
+                            <button class="action-btn"><i class="fas fa-cog"></i> Settings</button>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Events -->
+                    <div class="upcoming-events">
+                        <h3>Upcoming Events</h3>
+                        <div class="event-list">
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="day">15</span>
+                                    <span class="month">MAR</span>
+                                </div>
+                                <div class="event-details">
+                                    <h4>Weekend Party</h4>
+                                    <p><i class="fas fa-map-marker-alt"></i> Club XYZ</p>
+                                    <p><i class="fas fa-clock"></i> 10:00 PM</p>
+                                </div>
+                                <button class="view-ticket">View Ticket</button>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="day">20</span>
+                                    <span class="month">MAR</span>
+                                </div>
+                                <div class="event-details">
+                                    <h4>Live Music Night</h4>
+                                    <p><i class="fas fa-map-marker-alt"></i> Music Hall</p>
+                                    <p><i class="fas fa-clock"></i> 8:00 PM</p>
+                                </div>
+                                <button class="view-ticket">View Ticket</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="recent-activity">
+                        <h3>Recent Activity</h3>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <i class="fas fa-ticket-alt activity-icon"></i>
+                                <div class="activity-details">
+                                    <p>Purchased ticket for Weekend Party</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <i class="fas fa-heart activity-icon"></i>
+                                <div class="activity-details">
+                                    <p>Added Club XYZ to favorites</p>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <i class="fas fa-star activity-icon"></i>
+                                <div class="activity-details">
+                                    <p>Rated Live Music Night</p>
+                                    <span class="activity-time">2 days ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="menus/clubs.html">Clubs</a></li>
+                    <li><a href="menus/events.html">Events</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Connect With Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 NightMare. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
