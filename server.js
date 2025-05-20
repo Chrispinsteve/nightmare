@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const connectDB = require('./config/database');
+const passport = require('passport');
+const session = require('express-session');
 require('dotenv').config();
 
 // Initialize express app
@@ -12,6 +15,20 @@ connectDB();
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Session middleware
+app.use(session({
+  secret: process.env.JWT_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Serve static files from the root directory
+app.use(express.static(__dirname));
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));

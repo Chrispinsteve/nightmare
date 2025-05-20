@@ -31,23 +31,23 @@
                     <div class="profile-card">
                         <div class="profile-header">
                             <div class="profile-avatar">
-                                <img src="https://via.placeholder.com/150" alt="Profile Picture">
+                                <img id="userAvatar" src="https://via.placeholder.com/150" alt="Profile Picture">
                                 <button class="edit-avatar"><i class="fas fa-camera"></i></button>
                             </div>
-                            <h2 class="user-name">Steve Ad Rosam</h2>
-                            <p class="user-email">steverosam@example.com</p>
+                            <h2 class="user-name" id="userName">Loading...</h2>
+                            <p class="user-email" id="userEmail">Loading...</p>
                         </div>
                         <div class="profile-stats">
                             <div class="stat">
-                                <span class="stat-value">12</span>
+                                <span class="stat-value" id="eventsAttended">0</span>
                                 <span class="stat-label">Events Attended</span>
                             </div>
                             <div class="stat">
-                                <span class="stat-value">5</span>
+                                <span class="stat-value" id="upcomingEvents">0</span>
                                 <span class="stat-label">Upcoming Events</span>
                             </div>
                             <div class="stat">
-                                <span class="stat-value">3</span>
+                                <span class="stat-value" id="favoriteClubs">0</span>
                                 <span class="stat-label">Favorite Clubs</span>
                             </div>
                         </div>
@@ -161,6 +161,55 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Function to load user profile data
+        async function loadUserProfile() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    window.location.href = 'index.html';
+                    return;
+                }
+
+                const response = await fetch('http://localhost:5000/api/users/profile', {
+                    headers: {
+                        'x-auth-token': token
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user profile');
+                }
+
+                const userData = await response.json();
+                
+                // Update profile information
+                document.getElementById('userName').textContent = userData.fullName;
+                document.getElementById('userEmail').textContent = userData.email;
+                document.getElementById('userAvatar').src = userData.avatarUrl || 'https://via.placeholder.com/150';
+                
+                // Update statistics
+                document.getElementById('eventsAttended').textContent = userData.statistics.eventsAttended;
+                document.getElementById('upcomingEvents').textContent = userData.statistics.upcomingEvents;
+                document.getElementById('favoriteClubs').textContent = userData.statistics.favoriteClubs;
+
+            } catch (error) {
+                console.error('Error loading user profile:', error);
+                // Handle error (e.g., show error message to user)
+            }
+        }
+
+        // Function to handle logout
+        function handleLogout() {
+            localStorage.removeItem('token');
+            window.location.href = 'index.html';
+        }
+
+        // Add event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserProfile();
+            document.querySelector('.logout').addEventListener('click', handleLogout);
+        });
+    </script>
 </body>
 </html>

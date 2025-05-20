@@ -3,6 +3,10 @@ const router = express.Router();
 const User = require('../models/User');
 const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 // Validation middleware
 const validateSignup = [
@@ -31,6 +35,104 @@ const validateLogin = [
         .notEmpty()
         .withMessage('Password is required')
 ];
+
+// Configure Passport
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "/api/auth/google/callback"
+  },
+  async function(accessToken, refreshToken, profile, done) {
+    try {
+      // Check if user already exists
+      let user = await User.findOne({ email: profile.emails[0].value });
+      
+      if (!user) {
+        // Create new user if doesn't exist
+        user = await User.create({
+          email: profile.emails[0].value,
+          name: profile.displayName,
+          password: Math.random().toString(36).slice(-8), // Random password
+          profilePicture: profile.photos[0].value,
+          isSocialLogin: true
+        });
+      }
+      
+      return done(null, user);
+    } catch (error) {
+      return done(error, null);
+    }
+  }
+));
+
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: "/api/auth/facebook/callback",
+    profileFields: ['id', 'emails', 'name', 'picture.type(large)']
+  },
+  async function(accessToken, refreshToken, profile, done) {
+    try {
+      // Check if user already exists
+      let user = await User.findOne({ email: profile.emails[0].value });
+      
+      if (!user) {
+        // Create new user if doesn't exist
+        user = await User.create({
+          email: profile.emails[0].value,
+          name: `${profile.name.givenName} ${profile.name.familyName}`,
+          password: Math.random().toString(36).slice(-8), // Random password
+          profilePicture: profile.photos[0].value,
+          isSocialLogin: true
+        });
+      }
+      
+      return done(null, user);
+    } catch (error) {
+      return done(error, null);
+    }
+  }
+));
+
+// Google Auth Routes
+router.get('/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+router.get('/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, create JWT
+    const token = jwt.sign(
+      { id: req.user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+    
+    // Redirect to frontend with token
+    res.redirect(`/user.html?token=${token}`);
+  }
+);
+
+// Facebook Auth Routes
+router.get('/facebook',
+  passport.authenticate('facebook', { scope: ['email'] })
+);
+
+router.get('/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, create JWT
+    const token = jwt.sign(
+      { id: req.user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+    
+    // Redirect to frontend with token
+    res.redirect(`/user.html?token=${token}`);
+  }
+);
 
 // @route   POST /api/auth/signup
 // @desc    Register a new user

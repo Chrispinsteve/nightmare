@@ -229,10 +229,10 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
-    // Form validation
+    // Form validation and submission
     const authForms = document.querySelectorAll('.auth-form');
     authForms.forEach(form => {
-      form.addEventListener('submit', function(e) {
+      form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         // Basic form validation
@@ -248,30 +248,48 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         });
 
-        // Password match validation for signup
-        const password = this.querySelector('#password');
-        const confirmPassword = this.querySelector('#confirm-password');
-        if (password && confirmPassword) {
-          if (password.value !== confirmPassword.value) {
-            isValid = false;
-            confirmPassword.classList.add('error');
-            // You might want to add an error message here
-          }
+        if (!isValid) {
+          showNotification('Please fill in all required fields', 'error');
+          return;
         }
 
-        if (isValid) {
-          // Here you would typically send the form data to your server
-          console.log('Form is valid, ready to submit');
-          // For demo purposes, show a success message
-          const successMessage = document.createElement('div');
-          successMessage.className = 'success-message';
-          successMessage.textContent = 'Success! Redirecting...';
-          this.appendChild(successMessage);
-          
-          // Simulate redirect after 2 seconds
+        // Get form data
+        const formData = new FormData(this);
+        const data = {
+          email: formData.get('email'),
+          password: formData.get('password')
+        };
+
+        try {
+          // Send login request
+          const response = await fetch('http://localhost:5000/api/users/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+
+          const result = await response.json();
+
+          if (!response.ok) {
+            throw new Error(result.error || 'Login failed');
+          }
+
+          // Store token in localStorage
+          localStorage.setItem('token', result.token);
+
+          // Show success message
+          showNotification('Login successful! Redirecting...', 'success');
+
+          // Redirect to user profile page (updated path)
           setTimeout(() => {
-            window.location.href = '../index.html';
-          }, 2000);
+            window.location.href = '../user.html';
+          }, 1000);
+
+        } catch (error) {
+          console.error('Login error:', error);
+          showNotification(error.message || 'Login failed. Please try again.', 'error');
         }
       });
     });

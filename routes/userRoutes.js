@@ -144,4 +144,32 @@ router.post('/login', validateLogin, async (req, res) => {
     }
 });
 
+// @route   GET /api/users/profile
+// @desc    Get user profile data
+// @access  Private
+router.get('/profile', async (req, res) => {
+    try {
+        // Get user ID from JWT token
+        const token = req.header('x-auth-token');
+        if (!token) {
+            return res.status(401).json({ error: 'No token, authorization denied' });
+        }
+
+        // Verify token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.user.id;
+
+        // Get user data
+        const user = await User.findById(userId).select('-password');
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json(user);
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 module.exports = router; 
