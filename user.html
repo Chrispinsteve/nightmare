@@ -11,7 +11,7 @@
     <header>
         <div class="container header-container">
             <div class="logo">
-                <a href="index.html" onclick="navigateWithToken(event, 'index.html')"><span class="logo-gradient">NIGHTMARE</span></a>
+                <a href="/" onclick="navigateWithToken(event, '/')"><span class="logo-gradient">NIGHTMARE</span></a>
             </div>
             <nav>
                 <ul>
@@ -73,7 +73,7 @@
     <footer>
         <div class="container footer-container">
             <div class="footer-col">
-                <div class="footer-logo"><a href="index.html" onclick="navigateWithToken(event, 'index.html')"><span class="logo-gradient">NIGHTMARE</span></a></div>
+                <div class="footer-logo"><a href="/" onclick="navigateWithToken(event, '/')"><span class="logo-gradient">NIGHTMARE</span></a></div>
                 <p>Your ultimate nightlife companion. Discover the best clubs, events, and experiences.</p>
             </div>
             <div class="footer-col">
@@ -121,7 +121,11 @@
             event.preventDefault();
             if (checkAuth()) {
                 const token = localStorage.getItem('token');
-                window.location.href = `${url}?token=${token}`;
+                if (url === 'index.html') {
+                    window.location.href = `/?token=${token}`;
+                } else {
+                    window.location.href = `${url}?token=${token}`;
+                }
             }
         }
 
