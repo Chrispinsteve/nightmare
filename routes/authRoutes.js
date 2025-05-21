@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
 
 // Validation middleware
 const validateSignup = [
@@ -51,38 +50,9 @@ passport.use(new GoogleStrategy({
         // Create new user if doesn't exist
         user = await User.create({
           email: profile.emails[0].value,
-          name: profile.displayName,
+          fullName: profile.displayName,
           password: Math.random().toString(36).slice(-8), // Random password
-          profilePicture: profile.photos[0].value,
-          isSocialLogin: true
-        });
-      }
-      
-      return done(null, user);
-    } catch (error) {
-      return done(error, null);
-    }
-  }
-));
-
-passport.use(new FacebookStrategy({
-    clientID: process.env.FACEBOOK_APP_ID,
-    clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "/api/auth/facebook/callback",
-    profileFields: ['id', 'emails', 'name', 'picture.type(large)']
-  },
-  async function(accessToken, refreshToken, profile, done) {
-    try {
-      // Check if user already exists
-      let user = await User.findOne({ email: profile.emails[0].value });
-      
-      if (!user) {
-        // Create new user if doesn't exist
-        user = await User.create({
-          email: profile.emails[0].value,
-          name: `${profile.name.givenName} ${profile.name.familyName}`,
-          password: Math.random().toString(36).slice(-8), // Random password
-          profilePicture: profile.photos[0].value,
+          avatarUrl: profile.photos[0].value,
           isSocialLogin: true
         });
       }
@@ -101,26 +71,6 @@ router.get('/google',
 
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, create JWT
-    const token = jwt.sign(
-      { id: req.user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: '1d' }
-    );
-    
-    // Redirect to frontend with token
-    res.redirect(`/user.html?token=${token}`);
-  }
-);
-
-// Facebook Auth Routes
-router.get('/facebook',
-  passport.authenticate('facebook', { scope: ['email'] })
-);
-
-router.get('/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, create JWT
     const token = jwt.sign(
@@ -158,8 +108,14 @@ router.post('/signup', validateSignup, async (req, res) => {
         // Create new user
         user = new User({
             email,
-            password, // Password will be hashed by the pre-save middleware
-            fullName
+            password,
+            fullName,
+            avatarUrl: null,
+            statistics: {
+                eventsAttended: 0,
+                upcomingEvents: 0,
+                favoriteClubs: 0
+            }
         });
 
         // Save user to database
@@ -194,7 +150,7 @@ router.post('/signup', validateSignup, async (req, res) => {
     } catch (error) {
         console.error('Error in user signup:', error);
         res.status(500).json({
-            error: 'Server error'
+            error: error.message || 'Server error'
         });
     }
 });

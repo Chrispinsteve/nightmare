@@ -253,43 +253,80 @@ document.addEventListener('DOMContentLoaded', function () {
           return;
         }
 
-        // Get form data
-        const formData = new FormData(this);
-        const data = {
-          email: formData.get('email'),
-          password: formData.get('password')
-        };
+        // Check if it's a signup form
+        if (form.closest('.auth-box').querySelector('h2').textContent === 'Create Account') {
+          const fullName = form.querySelector('#fullname').value;
+          const email = form.querySelector('#email').value;
+          const password = form.querySelector('#password').value;
+          const confirmPassword = form.querySelector('#confirm-password').value;
 
-        try {
-          // Send login request
-          const response = await fetch('http://localhost:5000/api/users/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          });
-
-          const result = await response.json();
-
-          if (!response.ok) {
-            throw new Error(result.error || 'Login failed');
+          // Validate password match
+          if (password !== confirmPassword) {
+            showNotification('Passwords do not match', 'error');
+            return;
           }
 
-          // Store token in localStorage
-          localStorage.setItem('token', result.token);
+          try {
+            const response = await fetch('/api/auth/signup', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                fullName,
+                email,
+                password
+              })
+            });
 
-          // Show success message
-          showNotification('Login successful! Redirecting...', 'success');
+            const data = await response.json();
 
-          // Redirect to user profile page (updated path)
-          setTimeout(() => {
-            window.location.href = '../user.html';
-          }, 1000);
+            if (response.ok) {
+              showNotification('Account created successfully!', 'success');
+              // Store the token
+              localStorage.setItem('token', data.token);
+              // Redirect to user page
+              window.location.href = '/user.html';
+            } else {
+              showNotification(data.error || 'Signup failed', 'error');
+            }
+          } catch (error) {
+            showNotification('An error occurred during signup', 'error');
+            console.error('Signup error:', error);
+          }
+        }
+        // Login form handling remains the same
+        else {
+          const email = form.querySelector('#email').value;
+          const password = form.querySelector('#password').value;
 
-        } catch (error) {
-          console.error('Login error:', error);
-          showNotification(error.message || 'Login failed. Please try again.', 'error');
+          try {
+            const response = await fetch('/api/auth/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                email,
+                password
+              })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              showNotification('Login successful!', 'success');
+              // Store the token
+              localStorage.setItem('token', data.token);
+              // Redirect to user page
+              window.location.href = '/user.html';
+            } else {
+              showNotification(data.error || 'Login failed', 'error');
+            }
+          } catch (error) {
+            showNotification('An error occurred during login', 'error');
+            console.error('Login error:', error);
+          }
         }
       });
     });
@@ -455,3 +492,22 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
   });
+
+  // Add this function to check authentication
+  function checkAuth() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        window.location.href = '/menus/login.html';
+        return false;
+    }
+    return true;
+  }
+
+  // Add this function to handle navigation with token
+  function navigateWithToken(event, url) {
+    event.preventDefault();
+    if (checkAuth()) {
+        const token = localStorage.getItem('token');
+        window.location.href = `${url}?token=${token}`;
+    }
+  }

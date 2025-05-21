@@ -83,7 +83,7 @@
           <!-- Club Card 3 -->
           <div class="club-card">
             <div class="club-image">
-              <img src="https://source.unsplash.com/random/400x300/?bar" alt="Club Image">
+              <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Beach Party">
               <span class="club-type">Live Music</span>
             </div>
             <div class="club-info">
@@ -138,5 +138,49 @@
     </div>
   </footer>
   <script src="../script.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // Get token from URL or localStorage
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token') || localStorage.getItem('token');
+
+      if (!token) {
+          window.location.href = '/menus/login.html';
+          return;
+      }
+
+      // Store token in localStorage if it came from URL
+      if (urlParams.get('token')) {
+          localStorage.setItem('token', token);
+      }
+
+      // Update navigation based on authentication
+      const nav = document.querySelector('nav ul');
+      if (token) {
+          nav.innerHTML = `
+              <li><a href="clubs.html" class="active" onclick="navigateWithToken(event, 'clubs.html')">Clubs</a></li>
+              <li><a href="events.html" onclick="navigateWithToken(event, 'events.html')">Events</a></li>
+              <li><a href="#" class="logout">Logout</a></li>
+          `;
+          
+          // Add logout functionality
+          document.querySelector('.logout').addEventListener('click', function(e) {
+              e.preventDefault();
+              localStorage.removeItem('token');
+              window.location.href = '/menus/login.html';
+          });
+      }
+  });
+
+  function navigateWithToken(event, url) {
+      event.preventDefault();
+      const token = localStorage.getItem('token');
+      if (token) {
+          window.location.href = `${url}?token=${token}`;
+      } else {
+          window.location.href = '/menus/login.html';
+      }
+  }
+  </script>
 </body>
 </html> 

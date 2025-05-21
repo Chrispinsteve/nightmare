@@ -3,123 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard - NightMare</title>
+    <title>User Profile - NIGHTMARE</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
     <header>
         <div class="container header-container">
-            <a href="index.html" class="logo-gradient">NightMare</a>
+            <div class="logo">
+                <a href="index.html"><span class="logo-gradient">NIGHTMARE</span></a>
+            </div>
             <nav>
                 <ul>
-                    <li><a href="menus/clubs.html">Clubs</a></li>
-                    <li><a href="menus/events.html">Events</a></li>
-                    <li><a href="#" class="user-profile"><i class="fas fa-user-circle"></i> Profile</a></li>
-                    <li><a href="#" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    <li><a href="menus/clubs.html" onclick="navigateWithToken(event, 'menus/clubs.html')">Clubs</a></li>
+                    <li><a href="menus/events.html" onclick="navigateWithToken(event, 'menus/events.html')">Events</a></li>
+                    <li><a href="#" class="logout">Logout</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <main>
-        <!-- User Dashboard Section -->
-        <section class="dashboard">
+        <section class="profile-section">
             <div class="container">
-                <div class="dashboard-grid">
-                    <!-- Profile Card -->
-                    <div class="profile-card">
-                        <div class="profile-header">
-                            <div class="profile-avatar">
-                                <img id="userAvatar" src="https://via.placeholder.com/150" alt="Profile Picture">
-                                <button class="edit-avatar"><i class="fas fa-camera"></i></button>
-                            </div>
-                            <h2 class="user-name" id="userName">Loading...</h2>
-                            <p class="user-email" id="userEmail">Loading...</p>
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <img src="https://via.placeholder.com/150" alt="Profile Picture">
+                            <button class="edit-avatar">
+                                <i class="fas fa-camera"></i>
+                            </button>
                         </div>
-                        <div class="profile-stats">
-                            <div class="stat">
-                                <span class="stat-value" id="eventsAttended">0</span>
-                                <span class="stat-label">Events Attended</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value" id="upcomingEvents">0</span>
-                                <span class="stat-label">Upcoming Events</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value" id="favoriteClubs">0</span>
-                                <span class="stat-label">Favorite Clubs</span>
-                            </div>
+                        <div class="profile-info">
+                            <h1 id="userName">Loading...</h1>
+                            <p id="userEmail">Loading...</p>
                         </div>
                     </div>
 
-                    <!-- Quick Actions -->
                     <div class="quick-actions">
-                        <h3>Quick Actions</h3>
-                        <div class="action-buttons">
-                            <button class="action-btn"><i class="fas fa-ticket-alt"></i> My Tickets</button>
-                            <button class="action-btn"><i class="fas fa-calendar-alt"></i> My Calendar</button>
-                            <button class="action-btn"><i class="fas fa-heart"></i> Favorites</button>
-                            <button class="action-btn"><i class="fas fa-cog"></i> Settings</button>
-                        </div>
+                        <button class="action-btn">
+                            <i class="fas fa-ticket-alt"></i>
+                            My Tickets
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-calendar"></i>
+                            My Calendar
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-heart"></i>
+                            Favorites
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </button>
                     </div>
 
-                    <!-- Upcoming Events -->
                     <div class="upcoming-events">
-                        <h3>Upcoming Events</h3>
-                        <div class="event-list">
-                            <div class="event-item">
-                                <div class="event-date">
-                                    <span class="day">15</span>
-                                    <span class="month">MAR</span>
-                                </div>
-                                <div class="event-details">
-                                    <h4>Weekend Party</h4>
-                                    <p><i class="fas fa-map-marker-alt"></i> Club XYZ</p>
-                                    <p><i class="fas fa-clock"></i> 10:00 PM</p>
-                                </div>
-                                <button class="view-ticket">View Ticket</button>
-                            </div>
-                            <div class="event-item">
-                                <div class="event-date">
-                                    <span class="day">20</span>
-                                    <span class="month">MAR</span>
-                                </div>
-                                <div class="event-details">
-                                    <h4>Live Music Night</h4>
-                                    <p><i class="fas fa-map-marker-alt"></i> Music Hall</p>
-                                    <p><i class="fas fa-clock"></i> 8:00 PM</p>
-                                </div>
-                                <button class="view-ticket">View Ticket</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Recent Activity -->
-                    <div class="recent-activity">
-                        <h3>Recent Activity</h3>
-                        <div class="activity-list">
-                            <div class="activity-item">
-                                <i class="fas fa-ticket-alt activity-icon"></i>
-                                <div class="activity-details">
-                                    <p>Purchased ticket for Weekend Party</p>
-                                    <span class="activity-time">2 hours ago</span>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <i class="fas fa-heart activity-icon"></i>
-                                <div class="activity-details">
-                                    <p>Added Club XYZ to favorites</p>
-                                    <span class="activity-time">1 day ago</span>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <i class="fas fa-star activity-icon"></i>
-                                <div class="activity-details">
-                                    <p>Rated Live Music Night</p>
-                                    <span class="activity-time">2 days ago</span>
-                                </div>
-                            </div>
+                        <h2>Upcoming Events</h2>
+                        <div class="events-list" id="upcomingEvents">
+                            <!-- Events will be loaded here -->
                         </div>
                     </div>
                 </div>
@@ -129,6 +72,10 @@
 
     <footer>
         <div class="container footer-container">
+            <div class="footer-col">
+                <div class="footer-logo"><a href="index.html"><span class="logo-gradient">NIGHTMARE</span></a></div>
+                <p>Your ultimate nightlife companion. Discover the best clubs, events, and experiences.</p>
+            </div>
             <div class="footer-col">
                 <h4>Quick Links</h4>
                 <ul>
@@ -147,69 +94,104 @@
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Connect With Us</h4>
+                <h4>Follow Us</h4>
                 <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 NightMare. All rights reserved.</p>
+            © 2025 NIGHTMARE. All rights reserved.
         </div>
     </footer>
 
     <script>
-        // Function to load user profile data
-        async function loadUserProfile() {
-            try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    window.location.href = 'index.html';
-                    return;
-                }
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/menus/login.html';
+                return false;
+            }
+            return true;
+        }
 
-                const response = await fetch('http://localhost:5000/api/users/profile', {
+        function navigateWithToken(event, url) {
+            event.preventDefault();
+            if (checkAuth()) {
+                const token = localStorage.getItem('token');
+                window.location.href = `${url}?token=${token}`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Get token from URL or localStorage
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token') || localStorage.getItem('token');
+
+            if (!token) {
+                window.location.href = '/menus/login.html';
+                return;
+            }
+
+            try {
+                // Fetch user profile
+                const response = await fetch(`/api/users/profile?token=${token}`, {
                     headers: {
                         'x-auth-token': token
                     }
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch user profile');
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to fetch user profile');
                 }
 
                 const userData = await response.json();
                 
                 // Update profile information
-                document.getElementById('userName').textContent = userData.fullName;
-                document.getElementById('userEmail').textContent = userData.email;
-                document.getElementById('userAvatar').src = userData.avatarUrl || 'https://via.placeholder.com/150';
-                
-                // Update statistics
-                document.getElementById('eventsAttended').textContent = userData.statistics.eventsAttended;
-                document.getElementById('upcomingEvents').textContent = userData.statistics.upcomingEvents;
-                document.getElementById('favoriteClubs').textContent = userData.statistics.favoriteClubs;
+                document.getElementById('userName').textContent = userData.fullName || 'User';
+                document.getElementById('userEmail').textContent = userData.email || 'No email provided';
 
+                // Update profile picture if available
+                const profileImg = document.querySelector('.profile-avatar img');
+                if (userData.avatarUrl) {
+                    profileImg.src = userData.avatarUrl;
+                }
+
+                // Store token in localStorage if it came from URL
+                if (urlParams.get('token')) {
+                    localStorage.setItem('token', token);
+                }
             } catch (error) {
-                console.error('Error loading user profile:', error);
-                // Handle error (e.g., show error message to user)
+                console.error('Error:', error);
+                showNotification(error.message || 'Error loading profile data', 'error');
+                // Redirect to login if token is invalid
+                if (error.message.includes('token') || error.message.includes('authorization')) {
+                    setTimeout(() => {
+                        localStorage.removeItem('token');
+                        window.location.href = '/menus/login.html';
+                    }, 2000);
+                }
             }
-        }
-
-        // Function to handle logout
-        function handleLogout() {
-            localStorage.removeItem('token');
-            window.location.href = 'index.html';
-        }
-
-        // Add event listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            loadUserProfile();
-            document.querySelector('.logout').addEventListener('click', handleLogout);
         });
+
+        // Logout functionality
+        document.querySelector('.logout').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            window.location.href = '/menus/login.html';
+        });
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notif = document.createElement('div');
+            notif.className = `notification ${type}`;
+            notif.textContent = message;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
     </script>
 </body>
 </html>

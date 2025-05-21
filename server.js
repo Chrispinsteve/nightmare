@@ -20,12 +20,31 @@ app.use(express.json());
 app.use(session({
   secret: process.env.JWT_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
 }));
 
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Passport serialization/deserialization
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const User = require('./models/User');
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
+});
 
 // Serve static files from the root directory
 app.use(express.static(__dirname));
@@ -36,9 +55,10 @@ app.use('/api/users', require('./routes/userRoutes'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    console.error('Error details:', err);
     res.status(500).json({
-        error: 'Something went wrong!'
+        error: err.message || 'Something went wrong!',
+        stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
     });
 });
 

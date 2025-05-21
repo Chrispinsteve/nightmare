@@ -194,5 +194,49 @@
     </div>
   </footer>
   <script src="../script.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // Get token from URL or localStorage
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token') || localStorage.getItem('token');
+
+      if (!token) {
+          window.location.href = '/menus/login.html';
+          return;
+      }
+
+      // Store token in localStorage if it came from URL
+      if (urlParams.get('token')) {
+          localStorage.setItem('token', token);
+      }
+
+      // Update navigation based on authentication
+      const nav = document.querySelector('nav ul');
+      if (token) {
+          nav.innerHTML = `
+              <li><a href="clubs.html" onclick="navigateWithToken(event, 'clubs.html')">Clubs</a></li>
+              <li><a href="events.html" class="active" onclick="navigateWithToken(event, 'events.html')">Events</a></li>
+              <li><a href="#" class="logout">Logout</a></li>
+          `;
+          
+          // Add logout functionality
+          document.querySelector('.logout').addEventListener('click', function(e) {
+              e.preventDefault();
+              localStorage.removeItem('token');
+              window.location.href = '/menus/login.html';
+          });
+      }
+  });
+
+  function navigateWithToken(event, url) {
+      event.preventDefault();
+      const token = localStorage.getItem('token');
+      if (token) {
+          window.location.href = `${url}?token=${token}`;
+      } else {
+          window.location.href = '/menus/login.html';
+      }
+  }
+  </script>
 </body>
 </html> 
