@@ -53,7 +53,7 @@
                             <i class="fas fa-heart"></i>
                             Favorites
                         </button>
-                        <button class="action-btn">
+                        <button class="action-btn" onclick="openSettings()">
                             <i class="fas fa-cog"></i>
                             Settings
                         </button>
@@ -63,6 +63,66 @@
                         <h2>Upcoming Events</h2>
                         <div class="events-list" id="upcomingEvents">
                             <!-- Events will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Settings Modal -->
+                    <div id="settingsModal" class="modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2>Settings</h2>
+                                <span class="close" onclick="closeSettings()">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <div class="settings-section">
+                                    <h3>Profile Settings</h3>
+                                    <form id="profileSettingsForm">
+                                        <div class="form-group">
+                                            <label for="settingsFullName">Full Name</label>
+                                            <input type="text" id="settingsFullName" name="fullName">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="settingsEmail">Email</label>
+                                            <input type="email" id="settingsEmail" name="email" readonly>
+                                        </div>
+                                        <button type="submit" class="btn-primary">Save Changes</button>
+                                    </form>
+                                </div>
+                                <div class="settings-section">
+                                    <h3>Password Settings</h3>
+                                    <form id="passwordSettingsForm">
+                                        <div class="form-group">
+                                            <label for="currentPassword">Current Password</label>
+                                            <input type="password" id="currentPassword" name="currentPassword">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="newPassword">New Password</label>
+                                            <input type="password" id="newPassword" name="newPassword">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="confirmPassword">Confirm New Password</label>
+                                            <input type="password" id="confirmPassword" name="confirmPassword">
+                                        </div>
+                                        <button type="submit" class="btn-primary">Update Password</button>
+                                    </form>
+                                </div>
+                                <div class="settings-section">
+                                    <h3>Notification Settings</h3>
+                                    <div class="form-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="emailNotifications" checked>
+                                            Email Notifications
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="eventReminders" checked>
+                                            Event Reminders
+                                        </label>
+                                    </div>
+                                    <button onclick="saveNotificationSettings()" class="btn-primary">Save Preferences</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -195,6 +255,127 @@
             notif.textContent = message;
             document.body.appendChild(notif);
             setTimeout(() => notif.remove(), 3000);
+        }
+
+        // Settings Modal Functions
+        function openSettings() {
+            const modal = document.getElementById('settingsModal');
+            modal.style.display = 'block';
+            // Populate current settings
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            document.getElementById('settingsFullName').value = userData.fullName || '';
+            document.getElementById('settingsEmail').value = userData.email || '';
+        }
+
+        function closeSettings() {
+            const modal = document.getElementById('settingsModal');
+            modal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('settingsModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Profile Settings Form Handler
+        document.getElementById('profileSettingsForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const token = localStorage.getItem('token');
+            const formData = {
+                fullName: document.getElementById('settingsFullName').value
+            };
+
+            try {
+                const response = await fetch('/api/users/profile', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': token
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update profile');
+                }
+
+                const updatedData = await response.json();
+                localStorage.setItem('userData', JSON.stringify(updatedData));
+                document.getElementById('userName').textContent = updatedData.fullName;
+                showNotification('Profile updated successfully', 'success');
+                closeSettings();
+            } catch (error) {
+                showNotification(error.message, 'error');
+            }
+        });
+
+        // Password Settings Form Handler
+        document.getElementById('passwordSettingsForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const token = localStorage.getItem('token');
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (newPassword !== confirmPassword) {
+                showNotification('Passwords do not match', 'error');
+                return;
+            }
+
+            const formData = {
+                currentPassword: document.getElementById('currentPassword').value,
+                newPassword: newPassword
+            };
+
+            try {
+                const response = await fetch('/api/users/password', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': token
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update password');
+                }
+
+                showNotification('Password updated successfully', 'success');
+                document.getElementById('passwordSettingsForm').reset();
+            } catch (error) {
+                showNotification(error.message, 'error');
+            }
+        });
+
+        // Notification Settings Handler
+        async function saveNotificationSettings() {
+            const token = localStorage.getItem('token');
+            const settings = {
+                emailNotifications: document.getElementById('emailNotifications').checked,
+                eventReminders: document.getElementById('eventReminders').checked
+            };
+
+            try {
+                const response = await fetch('/api/users/notifications', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': token
+                    },
+                    body: JSON.stringify(settings)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update notification settings');
+                }
+
+                showNotification('Notification preferences saved', 'success');
+            } catch (error) {
+                showNotification(error.message, 'error');
+            }
         }
     </script>
 </body>
