@@ -1,0 +1,472 @@
+/* Promoter Dashboard Styles */
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Header Styles */
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem 0;
+}
+
+header h1 {
+    margin: 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 2rem 0;
+}
+
+/* Dashboard Sections */
+.dashboard-section {
+    background-color: #fff;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="text"],
+input[type="url"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Button Styles */
+.btn-primary,
+.btn-secondary {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    margin-left: 1rem;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+/* Event List Styles */
+.event-filters {
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.event-filters select,
+.event-filters input[type="text"] {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.event-filters input[type="text"] {
+    flex-grow: 1;
+}
+
+.event-item {
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.event-item h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #007bff;
+}
+
+.event-item p {
+    margin: 0.5rem 0;
+    color: #666;
+}
+
+.event-item button {
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-event-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.edit-event-btn:hover {
+    background-color: #218838;
+}
+
+.delete-event-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-event-btn:hover {
+    background-color: #c82333;
+}
+
+/* Ticket Types Styles */
+.ticket-types-container {
+    margin-top: 0.5rem;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+}
+
+.ticket-type-item {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    align-items: center;
+}
+
+.ticket-type-item:last-child {
+    margin-bottom: 0;
+}
+
+.ticket-type-item input[type="text"],
+.ticket-type-item input[type="number"] {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.ticket-type-item .remove-ticket {
+    background-color: #dc3545;
+    color: white;
+    padding: 0.5rem;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 1rem;
+}
+
+.ticket-type-item .remove-ticket:hover {
+    background-color: #c82333;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #333;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Error Message */
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+    text-align: center;
+    display: none;
+}
+
+/* Event Form Styles */
+.event-form .form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed #eee;
+}
+
+.event-form .form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0;
+}
+
+.event-form .form-section h4 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #555;
+}
+
+.event-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.event-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #555;
+}
+
+.event-form input[type="text"],
+.event-form input[type="date"],
+.event-form input[type="time"],
+.event-form input[type="url"],
+.event-form input[type="number"],
+.event-form select,
+.event-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.event-form textarea {
+    resize: vertical;
+}
+
+.event-form button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.event-form .btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.event-form .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.event-form .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.event-form .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Edit Form Styles */
+#edit-event-form .form-group {
+    margin-bottom: 1rem;
+}
+
+#edit-event-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #555;
+}
+
+#edit-event-form input[type="text"],
+#edit-event-form input[type="date"],
+#edit-event-form input[type="time"],
+#edit-event-form input[type="url"],
+#edit-event-form input[type="number"],
+#edit-event-form select,
+#edit-event-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+#edit-event-form textarea {
+    resize: vertical;
+}
+
+#edit-event-form button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 0.5rem;
+}
+
+#edit-event-form .btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+#edit-event-form .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+#edit-event-form .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+#edit-event-form .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Ticket Types Styles for Edit Form */
+#edit-ticket-types .ticket-type-item {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    align-items: center;
+}
+
+#edit-ticket-types .ticket-type-item input[type="text"],
+#edit-ticket-types .ticket-type-item input[type="number"] {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+}
+
+#edit-ticket-types .ticket-type-item .remove-ticket {
+    background-color: #dc3545;
+    color: white;
+    padding: 0.5rem;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 1rem;
+}
+
+#edit-ticket-types .ticket-type-item .remove-ticket:hover {
+    background-color: #c82333;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    background-color: #f8f9fa;
+    color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+    }
+
+    .event-filters {
+        flex-direction: column;
+    }
+
+    .ticket-type {
+        flex-direction: column;
+    }
+
+    .ticket-type input {
+        width: 100%;
+    }
+} 

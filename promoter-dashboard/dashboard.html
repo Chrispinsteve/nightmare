@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promoter Dashboard - NIGHTMARE</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Promoter Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="/user.html">User Dashboard</a></li>
+                    <li><a href="#create-event">Create Event</a></li>
+                    <li><a href="#event-list">Manage Events</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div id="loading" class="loading-spinner" style="display: none;">
+            <div class="spinner"></div>
+        </div>
+
+        <div id="error-message" class="error-message" style="display: none;"></div>
+
+        <section class="container">
+            <h2>Welcome, <span id="promoter-name">Promoter</span>!</h2>
+
+            <section id="create-event" class="dashboard-section">
+                <h3>Create New Event</h3>
+                <form id="create-event-form" class="event-form">
+                    <div class="form-section">
+                        <h4>Event Details</h4>
+                        <div class="form-group">
+                            <label for="event-title">Title:</label>
+                            <input type="text" id="event-title" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="event-description">Description:</label>
+                            <textarea id="event-description" rows="4" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="event-imageUrl">Image URL:</label>
+                            <input type="file" id="event-imageUrl" placeholder="https://example.com/image.jpg">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Timing and Location</h4>
+                         <div class="form-group">
+                            <label for="event-date">Date:</label>
+                            <input type="date" id="event-date" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="event-time">Time:</label>
+                            <input type="time" id="event-time" required>
+                        </div>
+
+                         <div class="form-group">
+                            <label for="event-location">Location:</label>
+                            <input type="text" id="event-location" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="event-category">Category:</label>
+                            <select id="event-category" required>
+                                <option value="">Select a category</option>
+                                <option value="music">Music</option>
+                                <option value="dance">Dance</option>
+                                <option value="special">Special</option>
+                                <option value="holiday">Holiday</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Ticketing</h4>
+                         <div class="form-group">
+                            <label for="event-capacity">Capacity:</label>
+                            <input type="number" id="event-capacity" min="1" required>
+                        </div>
+
+                         <div class="form-group">
+                            <label for="event-price">Base Price:</label>
+                            <input type="number" id="event-price" step="0.01" min="0" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ticket Types:</label>
+                            <div id="ticket-types" class="ticket-types-container">
+                                <div class="ticket-type-item">
+                                    <input type="text" placeholder="Type name" class="ticket-name">
+                                    <input type="number" placeholder="Price" class="ticket-price" step="0.01" min="0">
+                                    <input type="number" placeholder="Quantity" class="ticket-quantity" min="1">
+                                    <button type="button" class="remove-ticket"><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+                            <button type="button" id="add-ticket-type" class="btn-secondary">Add Ticket Type</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Create Event</button>
+                </form>
+            </section>
+
+            <section id="event-list" class="dashboard-section">
+                <h3>Your Events</h3>
+                <div class="event-filters">
+                    <select id="event-filter">
+                        <option value="all">All Events</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="past">Past</option>
+                    </select>
+                    <input type="text" id="event-search" placeholder="Search events...">
+                </div>
+                <div id="events-container">
+                    <!-- Events will be loaded here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Edit Event Form (Hidden by default) -->
+            <section id="edit-event-form" class="dashboard-section" style="display: none;">
+                <h3>Edit Event</h3>
+                <form id="update-event-form">
+                    <input type="hidden" id="edit-event-id">
+
+                    <div class="form-group">
+                        <label for="edit-event-title">Title:</label>
+                        <input type="text" id="edit-event-title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-event-description">Description:</label>
+                        <textarea id="edit-event-description" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-event-date">Date:</label>
+                        <input type="date" id="edit-event-date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-event-time">Time:</label>
+                        <input type="time" id="edit-event-time" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-event-location">Location:</label>
+                        <input type="text" id="edit-event-location" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-event-category">Category:</label>
+                        <select id="edit-event-category" required>
+                            <option value="">Select a category</option>
+                            <option value="music">Music</option>
+                            <option value="dance">Dance</option>
+                            <option value="special">Special</option>
+                            <option value="holiday">Holiday</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-event-imageUrl">Image URL:</label>
+                        <input type="url" id="edit-event-imageUrl" placeholder="https://example.com/image.jpg">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-event-price">Base Price:</label>
+                        <input type="number" id="edit-event-price" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-event-capacity">Capacity:</label>
+                        <input type="number" id="edit-event-capacity" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ticket Types:</label>
+                        <div id="edit-ticket-types">
+                            <!-- Ticket types will be added here dynamically -->
+                        </div>
+                        <button type="button" id="edit-add-ticket-type">Add Ticket Type</button>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Update Event</button>
+                    <button type="button" id="cancel-edit" class="btn-secondary">Cancel</button>
+                </form>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NIGHTMARE. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/js/auth.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
